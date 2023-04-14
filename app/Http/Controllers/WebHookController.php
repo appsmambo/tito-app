@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use GuzzleHttp\Exception\RequestException;
 use App\Http\Controllers\SessionController;
+use App\Http\Controllers\Api\ApiPeruController;
 use Twilio\Rest\Client;
 use App\Models\Session;
 use App\Models\Message;
@@ -70,7 +71,19 @@ class WebHookController extends Controller
         }
 
         if ($validar) {
-            // query
+            // validar RENIEC por DNI y actualizar fullname
+            $apiReniec = new ApiPeruController();
+            $response = $apiReniec->getDni($body);
+            if ($response && $response->success) {
+                DB::table('pensioners')
+                    ->where('dni', 1)
+                    ->update(['fullname' => $response->data->nombre_completo]);
+            }
+
+
+
+
+            // query validate
             $pensioner = DB::table('pensioners')
                 ->select('id', 'first_name')
                 ->where('dni', $json['dni'])
