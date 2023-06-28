@@ -13,7 +13,7 @@ class MessageController extends Controller
     */
     public function index()
     {
-        $messages = Message::orderBy('order', 'asc')->paginate(15);
+        $messages = Message::orderBy('order', 'asc')->get();
         return view('messages.index', compact('messages'));
     }
 

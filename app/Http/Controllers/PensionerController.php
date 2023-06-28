@@ -13,7 +13,7 @@ class PensionerController extends Controller
     */
     public function index()
     {
-        $pensioners = Pensioner::orderBy('id', 'desc')->paginate(5);
+        $pensioners = Pensioner::orderBy('id', 'desc')->get();
         return view('pensioners.index', compact('pensioners'));
     }
 

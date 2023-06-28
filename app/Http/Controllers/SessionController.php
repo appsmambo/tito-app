@@ -34,7 +34,7 @@ class SessionController extends Controller
         $diff = strtotime($now) - strtotime($last_access);
         if ($diff <= $lifetime) {
             $session->last_access = $now;
-            if ($session->step < 6)
+            if ($session->step < 7)
                 $session->step += 1;
         } else {
             $session->start = $now;
